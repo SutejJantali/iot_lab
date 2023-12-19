@@ -1,0 +1,36 @@
+#define THRESHOLD 200
+
+void setup()
+{
+  pinMode(13, OUTPUT); // Trigger Pin
+  pinMode(12, INPUT); // Echo pin
+  pinMode(11, OUTPUT); // LED / BUzzer Pin
+  Serial.begin(9600);
+}
+void loop()
+{
+  long duration, distance; 
+
+  digitalWrite(13, LOW); // SET TRIGGER to LOW
+  delayMicroseconds(2);
+  digitalWrite(13, HIGH); // FIRE TRIGGER
+  delayMicroseconds(10);
+
+  duration = pulseIn(12, HIGH);// duration is in microseconds
+
+  // Formula : 2 * distance = speed * time
+  distance = duration * 343 / 20000.0; // distance in cm
+
+  Serial.println(distance);
+  Serial.println("Distance is "); 
+  Serial.println(distance);
+  if(distance < THRESHOLD)
+  {
+    digitalWrite(11, HIGH);
+  }
+  else
+  {
+    digitalWrite(11, LOW);
+  }
+  delay(1000);
+}

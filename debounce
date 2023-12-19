@@ -1,0 +1,38 @@
+const int led_pin = 13;
+const int button_pin = 12;
+
+int led_state = HIGH;
+int last_button_state = LOW;
+
+long last_debounce_time = 0;
+long debounce_delay = 2000; 
+
+void setup()
+{
+  pinMode(led_pin, OUTPUT);
+  pinMode(button_pin, INPUT);
+  digitalWrite(led_pin, led_state);
+  Serial.begin(9600);
+}
+void loop()
+{
+  int reading = digitalRead(button_pin);
+
+  if(reading != last_button_state && reading == HIGH)
+  {
+    last_debounce_time = millis();
+  }
+  else if(reading != last_button_state && reading == LOW)
+  {
+    long duration = millis() - last_debounce_time;
+    
+    if(duration >= debounce_delay)
+    {
+      Serial.println("The button was held for : "); 
+      Serial.println(duration);
+      led_state = !led_state; 
+      digitalWrite(led_pin, led_state);
+    }
+  }
+  last_button_state = reading;
+}

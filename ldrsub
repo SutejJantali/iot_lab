@@ -1,0 +1,12 @@
+void setup()
+{
+  pinMode(13, OUTPUT);
+  pinMode(A0, INPUT);
+}
+
+void loop()
+{
+  int intensity = analogRead(A0);
+  analogWrite(13, intensity);
+  delay(1000);
+}

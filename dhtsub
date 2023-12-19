@@ -1,0 +1,34 @@
+#include <SimpleDHT.h>
+#define CRITICAL 43
+
+SimpleDHT22 dht(13); // device OUTPUTS info on pin 13
+
+void setup()
+{
+  pinMode(13, INPUT); // DHT PIN
+  pinMode(12, OUTPUT); // LED PIN
+  Serial.begin(9600); // set bit transmisson rate
+}
+
+void loop()
+{
+  byte temp, humidity; 
+  if(dht.read(&temp, &humidity, NULL) != SimpleDHTErrSuccess)
+  {
+    Serial.println("DHT read failed");
+    return;
+  }
+  Serial.println("Temperature is ");
+  Serial.println((int) temp); 
+  Serial.println("Humidity is : "); 
+  Serial.println((int) humidity);
+  if(temp > CRITICAL) 
+  {
+    digitalWrite(12, HIGH);
+  }
+  else
+  {
+    digitalWrite(12, LOW);
+  }
+  delay(1000);
+}
